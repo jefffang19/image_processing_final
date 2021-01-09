@@ -77,7 +77,7 @@ class Ui_Frame(object):
         self.pushButton.setText(_translate("Frame", "Select dataset"))
         self.pushButton_2.setText(_translate("Frame", "run"))
         self.label.setText(_translate("Frame", "TextLabel"))
-        self.label_2.setText(_translate("Frame", "TextLabel"))
+        self.label_2.setText(_translate("Frame", "0/20"))
 
         self.setImg(0)
 
@@ -88,6 +88,9 @@ class Ui_Frame(object):
         self.horizontalSlider.setTickPosition(QtWidgets.QSlider.TicksBelow)
         self.horizontalSlider.setTickInterval(1)
         self.horizontalSlider.valueChanged.connect(self.valuechange)
+
+        # connect choose dataset
+        self.pushButton.clicked.connect(self.choose_path)
 
     def setImg(self, n_img):
 
@@ -142,7 +145,7 @@ class Ui_Frame(object):
 
     def valuechange(self):
         s = self.horizontalSlider.value()
-        print(s)
+        # print(s)
         # clear layout
         for i in reversed(range(self.verticalLayout_4.count())):
             self.verticalLayout_4.itemAt(i).widget().setParent(None)
@@ -155,6 +158,13 @@ class Ui_Frame(object):
 
         # change image
         self.setImg(s)
+
+        # change indexer
+        self.label_2.setText('{}/20'.format(s))
+
+    def choose_path(self):
+        file = str(QtWidgets.QFileDialog.getExistingDirectory(None, "Select Directory"))
+        print(file)
 
 import sys
 app = QtWidgets.QApplication(sys.argv)
