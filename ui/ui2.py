@@ -79,63 +79,82 @@ class Ui_Frame(object):
         self.label.setText(_translate("Frame", "TextLabel"))
         self.label_2.setText(_translate("Frame", "TextLabel"))
 
+        self.setImg(0)
+
+        # set slider
+        self.horizontalSlider.setMinimum(0)
+        self.horizontalSlider.setMaximum(20)
+        self.horizontalSlider.setValue(0)
+        self.horizontalSlider.setTickPosition(QtWidgets.QSlider.TicksBelow)
+        self.horizontalSlider.setTickInterval(1)
+        self.horizontalSlider.valueChanged.connect(self.valuechange)
+
+    def setImg(self, n_img):
+
         sc = MplCanvas(self, width=5, height=4, dpi=100)
-        img = cv2.imread('test/9/T1/0.jpg')
+        img = cv2.imread('test/9/T1/{}.jpg'.format(n_img))
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         sc.axes.imshow(img, 'gray')
         self.verticalLayout_4.addWidget(sc)
         sc = MplCanvas(self, width=5, height=4, dpi=100)
-        img = cv2.imread('test/9/T2/0.jpg')
+        img = cv2.imread('test/9/T2/{}.jpg'.format(n_img))
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         sc.axes.imshow(img, 'gray')
         self.verticalLayout_4.addWidget(sc)
 
         sc = MplCanvas(self, width=5, height=4, dpi=100)
-        img = cv2.imread('test/9/CT/0.jpg')
+        img = cv2.imread('test/9/CT/{}.jpg'.format(n_img))
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         sc.axes.imshow(img, 'gray')
         self.verticalLayout_5.addWidget(sc)
         sc = MplCanvas(self, width=5, height=4, dpi=100)
-        img = cv2.imread('test/9/FT/0.jpg')
+        img = cv2.imread('test/9/FT/{}.jpg'.format(n_img))
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         sc.axes.imshow(img, 'gray')
         self.verticalLayout_5.addWidget(sc)
         sc = MplCanvas(self, width=5, height=4, dpi=100)
-        img = cv2.imread('test/9/MN/0.jpg')
+        img = cv2.imread('test/9/MN/{}.jpg'.format(n_img))
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         sc.axes.imshow(img, 'gray')
         self.verticalLayout_5.addWidget(sc)
 
         sc = MplCanvas(self, width=5, height=4, dpi=100)
-        img = cv2.imread('test/9/CT/0.jpg')
+        img = cv2.imread('test/9/CT/{}.jpg'.format(n_img))
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         sc.axes.imshow(img, 'gray')
         self.verticalLayout_6.addWidget(sc)
         sc = MplCanvas(self, width=5, height=4, dpi=100)
-        img = cv2.imread('test/9/FT/0.jpg')
+        img = cv2.imread('test/9/FT/{}.jpg'.format(n_img))
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         sc.axes.imshow(img, 'gray')
         self.verticalLayout_6.addWidget(sc)
         sc = MplCanvas(self, width=5, height=4, dpi=100)
-        img = cv2.imread('test/9/MN/0.jpg')
+        img = cv2.imread('test/9/MN/{}.jpg'.format(n_img))
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         sc.axes.imshow(img, 'gray')
         self.verticalLayout_6.addWidget(sc)
 
-        # clear layout
-        for i in reversed(range(self.verticalLayout_6.count())):
-            self.verticalLayout_6.itemAt(i).widget().setParent(None)
-
         sc = MplCanvas(self, width=5, height=4, dpi=100)
-        img = cv2.imread('test/9/T1/0.jpg')
+        img = cv2.imread('test/9/T1/{}.jpg'.format(n_img))
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         sc.axes.imshow(img, 'gray')
         self.verticalLayout_7.addWidget(sc)
 
-
     def valuechange(self):
         s = self.horizontalSlider.value()
         print(s)
+        # clear layout
+        for i in reversed(range(self.verticalLayout_4.count())):
+            self.verticalLayout_4.itemAt(i).widget().setParent(None)
+        for i in reversed(range(self.verticalLayout_5.count())):
+            self.verticalLayout_5.itemAt(i).widget().setParent(None)
+        for i in reversed(range(self.verticalLayout_6.count())):
+            self.verticalLayout_6.itemAt(i).widget().setParent(None)
+        for i in reversed(range(self.verticalLayout_7.count())):
+            self.verticalLayout_7.itemAt(i).widget().setParent(None)
+
+        # change image
+        self.setImg(s)
 
 import sys
 app = QtWidgets.QApplication(sys.argv)
