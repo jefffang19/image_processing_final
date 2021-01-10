@@ -6,6 +6,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 import cv2
+import numpy as np
+
+from model import inference
 
 class MplCanvas(FigureCanvasQTAgg):
 
@@ -76,10 +79,8 @@ class Ui_Frame(object):
         Frame.setWindowTitle(_translate("Frame", "Frame"))
         self.pushButton.setText(_translate("Frame", "Select dataset"))
         self.pushButton_2.setText(_translate("Frame", "run"))
-        self.label.setText(_translate("Frame", "TextLabel"))
-        self.label_2.setText(_translate("Frame", "0/20"))
-
-        self.setImg(0)
+        self.label.setText(_translate("Frame", "dice"))
+        self.label_2.setText(_translate("Frame", "0/0"))
 
         # set slider
         self.horizontalSlider.setMinimum(0)
@@ -91,6 +92,7 @@ class Ui_Frame(object):
 
         # connect choose dataset
         self.pushButton.clicked.connect(self.choose_path)
+        self.pushButton_2.clicked.connect(self.run_inference)
 
     def setImg(self, n_img):
 
@@ -143,6 +145,9 @@ class Ui_Frame(object):
         sc.axes.imshow(img, 'gray')
         self.verticalLayout_7.addWidget(sc)
 
+        _translate = QtCore.QCoreApplication.translate
+        self.label.setText(_translate("Frame", "Sequence DC(mean):\nMedian nerve: {}\nFlexor tendons: {}\nCarpal tunnel: {}".format(self.mean_mn, self.mean_ft, self.mean_ct)))
+
     def valuechange(self):
         s = self.horizontalSlider.value()
         # print(s)
@@ -165,6 +170,19 @@ class Ui_Frame(object):
     def choose_path(self):
         file = str(QtWidgets.QFileDialog.getExistingDirectory(None, "Select Directory"))
         print(file)
+
+    def run_inference(self):
+        self.xs, self.ys, self.preds, self.cts, self.fts, self.mns, self.stacks = inference()
+
+        self.mean_ct = np.mean(np.array(self.cts))
+        self.mean_ft = np.mean(np.array(self.fts))
+        self.mean_mn = np.mean(np.array(self.mns))
+
+        # change image
+        self.setImg(0)
+
+        # change indexer
+        self.label_2.setText('0/20')
 
 import sys
 app = QtWidgets.QApplication(sys.argv)
