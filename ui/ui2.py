@@ -97,17 +97,6 @@ class Ui_Frame(object):
     def setImg(self, n_img):
 
         sc = MplCanvas(self, width=5, height=4, dpi=100)
-
-            #     t1=,
-    #     t2=xs[0][...,1],
-    #     ct=ys[0][...,0],
-    #     ft=ys[0][...,1],
-    #     mn=ys[0][...,2],
-    #     p_ct=preds[0][..., 0],
-    #     p_ft=preds[0][..., 1],
-    #     p_mn=preds[0][..., 2],
-    #     stack=stacks[0]
-
         sc.axes.imshow(self.xs[n_img][...,0], 'gray')
         self.verticalLayout_4.addWidget(sc)
         sc = MplCanvas(self, width=5, height=4, dpi=100)
@@ -120,6 +109,7 @@ class Ui_Frame(object):
         sc = MplCanvas(self, width=5, height=4, dpi=100)
         sc.axes.imshow(self.ys[n_img][...,1], 'gray')
         self.verticalLayout_5.addWidget(sc)
+        sc = MplCanvas(self, width=5, height=4, dpi=100)
         sc.axes.imshow(self.ys[n_img][...,2], 'gray')
         self.verticalLayout_5.addWidget(sc)
 
@@ -139,7 +129,7 @@ class Ui_Frame(object):
         self.verticalLayout_7.addWidget(sc)
 
         _translate = QtCore.QCoreApplication.translate
-        self.label.setText(_translate("Frame", "Sequence DC(mean):\nMedian nerve: {}\nFlexor tendons: {}\nCarpal tunnel: {}".format(self.mean_mn, self.mean_ft, self.mean_ct)))
+        self.label.setText(_translate("Frame", "Sequence DC(mean):\nMedian nerve: {}\nFlexor tendons: {}\nCarpal tunnel: {} \nimage DC:\nMedian nerve: {}\nFlexor tendons: {}\nCarpal tunnel: {}".format(self.mean_mn, self.mean_ft, self.mean_ct, self.mns[n_img], self.fts[n_img], self.cts[n_img])))
 
     def valuechange(self):
         s = self.horizontalSlider.value()
@@ -162,7 +152,9 @@ class Ui_Frame(object):
 
     def choose_path(self):
         file = str(QtWidgets.QFileDialog.getExistingDirectory(None, "Select Directory"))
-        print(file)
+        f = open('dataset_path.txt', 'w')
+        f.write(file)
+        f.close()
 
     def run_inference(self):
         self.xs, self.ys, self.preds, self.cts, self.fts, self.mns, self.stacks = inference()
