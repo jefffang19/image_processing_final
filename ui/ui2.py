@@ -97,52 +97,45 @@ class Ui_Frame(object):
     def setImg(self, n_img):
 
         sc = MplCanvas(self, width=5, height=4, dpi=100)
-        img = cv2.imread('test/9/T1/{}.jpg'.format(n_img))
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        sc.axes.imshow(img, 'gray')
+
+            #     t1=,
+    #     t2=xs[0][...,1],
+    #     ct=ys[0][...,0],
+    #     ft=ys[0][...,1],
+    #     mn=ys[0][...,2],
+    #     p_ct=preds[0][..., 0],
+    #     p_ft=preds[0][..., 1],
+    #     p_mn=preds[0][..., 2],
+    #     stack=stacks[0]
+
+        sc.axes.imshow(self.xs[n_img][...,0], 'gray')
         self.verticalLayout_4.addWidget(sc)
         sc = MplCanvas(self, width=5, height=4, dpi=100)
-        img = cv2.imread('test/9/T2/{}.jpg'.format(n_img))
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        sc.axes.imshow(img, 'gray')
+        sc.axes.imshow(self.xs[n_img][...,1], 'gray')
         self.verticalLayout_4.addWidget(sc)
 
         sc = MplCanvas(self, width=5, height=4, dpi=100)
-        img = cv2.imread('test/9/CT/{}.jpg'.format(n_img))
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        sc.axes.imshow(img, 'gray')
+        sc.axes.imshow(self.ys[n_img][...,0], 'gray')
         self.verticalLayout_5.addWidget(sc)
         sc = MplCanvas(self, width=5, height=4, dpi=100)
-        img = cv2.imread('test/9/FT/{}.jpg'.format(n_img))
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        sc.axes.imshow(img, 'gray')
+        sc.axes.imshow(self.ys[n_img][...,1], 'gray')
         self.verticalLayout_5.addWidget(sc)
-        sc = MplCanvas(self, width=5, height=4, dpi=100)
-        img = cv2.imread('test/9/MN/{}.jpg'.format(n_img))
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        sc.axes.imshow(img, 'gray')
+        sc.axes.imshow(self.ys[n_img][...,2], 'gray')
         self.verticalLayout_5.addWidget(sc)
 
         sc = MplCanvas(self, width=5, height=4, dpi=100)
-        img = cv2.imread('test/9/CT/{}.jpg'.format(n_img))
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        sc.axes.imshow(img, 'gray')
+        sc.axes.imshow(self.preds[n_img][...,0], 'gray')
         self.verticalLayout_6.addWidget(sc)
         sc = MplCanvas(self, width=5, height=4, dpi=100)
-        img = cv2.imread('test/9/FT/{}.jpg'.format(n_img))
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        sc.axes.imshow(img, 'gray')
+        sc.axes.imshow(self.preds[n_img][...,1], 'gray')
         self.verticalLayout_6.addWidget(sc)
         sc = MplCanvas(self, width=5, height=4, dpi=100)
-        img = cv2.imread('test/9/MN/{}.jpg'.format(n_img))
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        sc.axes.imshow(img, 'gray')
+        sc.axes.imshow(self.preds[n_img][...,2], 'gray')
         self.verticalLayout_6.addWidget(sc)
 
         sc = MplCanvas(self, width=5, height=4, dpi=100)
-        img = cv2.imread('test/9/T1/{}.jpg'.format(n_img))
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        sc.axes.imshow(img, 'gray')
+        img = self.stacks[n_img]
+        sc.axes.imshow(img)
         self.verticalLayout_7.addWidget(sc)
 
         _translate = QtCore.QCoreApplication.translate
@@ -165,7 +158,7 @@ class Ui_Frame(object):
         self.setImg(s)
 
         # change indexer
-        self.label_2.setText('{}/20'.format(s))
+        self.label_2.setText('{}/{}'.format(s, len(self.cts)))
 
     def choose_path(self):
         file = str(QtWidgets.QFileDialog.getExistingDirectory(None, "Select Directory"))
@@ -182,7 +175,8 @@ class Ui_Frame(object):
         self.setImg(0)
 
         # change indexer
-        self.label_2.setText('0/20')
+        self.label_2.setText('0/{}'.format(len(self.cts)))
+        self.horizontalSlider.setMaximum(len(self.cts) -1 )
 
 import sys
 app = QtWidgets.QApplication(sys.argv)
